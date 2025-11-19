@@ -1,0 +1,7 @@
+{
+  "name": "Exp_Normalizer",
+  "version_number": "1.0.0",
+  "website_url": "https://github.com/binbinmods/ExpNormalization",
+  "description": "A mod that DescriptionToReplace",
+  "dependencies": ["BepInEx-BepInExPack_AcrossTheObelisk-5.4.23"]
+}
