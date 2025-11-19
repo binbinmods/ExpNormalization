@@ -68,6 +68,7 @@ namespace ExpNormalization
         {
 
             SetDifficultyExpDictionary(Globals.Instance.NPCs);
+            SetAct3DifficultyExpDictionary(Globals.Instance.NPCs);
         }
 
 
