@@ -16,10 +16,11 @@ namespace ExpNormalization
     public class ExpNormalizationFunctions
     {
 
-        public static Dictionary<int, SortedList<int, int>> DifficultyExpDictionary = [];
-        public static Dictionary<int, SortedList<int, int>> Act3DifficultyExpDictionary = [];
+        public static Dictionary<int, List<int>> DifficultyExpDictionary = [];
+        public static Dictionary<int, List<int>> Act3DifficultyExpDictionary = [];
         public static Dictionary<Enums.CombatTier, int> champTierDict = new Dictionary<Enums.CombatTier, int>
         {
+            { Enums.CombatTier.T0, 2 },
             { Enums.CombatTier.T1, 2 },
             { Enums.CombatTier.T2, 4 },
             { Enums.CombatTier.T3, 6 },
@@ -36,6 +37,7 @@ namespace ExpNormalization
 
         public static Dictionary<Enums.CombatTier, int> npcTierDict = new Dictionary<Enums.CombatTier, int>
         {
+            { Enums.CombatTier.T0, 1 },
             { Enums.CombatTier.T1, 1 },
             { Enums.CombatTier.T2, 3 },
             { Enums.CombatTier.T3, 7 },
@@ -52,7 +54,13 @@ namespace ExpNormalization
 
         public static bool IsRandomCombat()
         {
-            return Globals.Instance.GetNodeData(AtOManager.Instance.currentMapNode).CombatPercent > 0;
+            NodeData node = Globals.Instance.GetNodeData(AtOManager.Instance.currentMapNode);
+            bool isRC = node.CombatPercent > 0 || node.NodeCombat.Length > 0;
+            if (!isRC)
+            {
+                LogDebug($"Exp Normalization: NodeCombat for node {AtOManager.Instance.currentMapNode} is {node.NodeCombat.Length}. Not a random combat.");
+            }
+            return isRC;
         }
 
         public static int GetHighestEnemyDifficulty(Enums.CombatTier combatTier)
@@ -70,13 +78,13 @@ namespace ExpNormalization
         {
             List<int> highestExp = [];
 
-            Dictionary<int, SortedList<int, int>> expDictionary = isAct3 ? Act3DifficultyExpDictionary : DifficultyExpDictionary;
-            if (expDictionary.TryGetValue(difficulty, out SortedList<int, int> expList))
+            Dictionary<int, List<int>> expDictionary = isAct3 ? Act3DifficultyExpDictionary : DifficultyExpDictionary;
+            if (expDictionary.TryGetValue(difficulty, out List<int> expList))
             {
                 if (expList.Count < 3)
                 {
                     LogDebug($"Exp Normalization: Not enough EXP data for npc difficulty {difficulty} to determine top 3 highest EXP values.");
-                    return expList.Values.ToArray();
+                    return expList.ToArray();
                 }
                 highestExp.Add(expList[expList.Count - 1]);
                 highestExp.Add(expList[expList.Count - 2]);
@@ -86,21 +94,22 @@ namespace ExpNormalization
             {
                 LogError($"Exp Normalization: No EXP data found for npc difficulty {difficulty}.");
             }
+            LogDebug($"Acquired Highest Experience for Difficulty {difficulty}: {string.Join(", ", highestExp)}");
             return highestExp.ToArray();
         }
 
         public static int GetChampionExp(int difficulty, bool isAct3 = false)
         {
             int championExp = 0;
-            Dictionary<int, SortedList<int, int>> expDictionary = isAct3 ? Act3DifficultyExpDictionary : DifficultyExpDictionary;
-            if (expDictionary.TryGetValue(difficulty, out SortedList<int, int> expList))
+            Dictionary<int, List<int>> expDictionary = isAct3 ? Act3DifficultyExpDictionary : DifficultyExpDictionary;
+            if (expDictionary.TryGetValue(difficulty, out List<int> expList))
             {
                 if (expList.Count < 1)
                 {
                     LogError($"Exp Normalization: No EXP data found for champion difficulty {difficulty}.");
                     return 0;
                 }
-                championExp = expList.Last().Key;
+                championExp = expList.Last();
             }
             else
             {
@@ -111,6 +120,7 @@ namespace ExpNormalization
 
         public static void SetDifficultyExpDictionary(Dictionary<string, NPCData> npcDictionary)
         {
+            LogDebug("Exp Normalization: Populating DifficultyExpDictionary...");
             DifficultyExpDictionary.Clear();
             foreach (KeyValuePair<string, NPCData> npcEntry in npcDictionary)
             {
@@ -130,16 +140,14 @@ namespace ExpNormalization
                 }
 
                 int exp = npcData.ExperienceReward;
-                if (DifficultyExpDictionary.TryGetValue(difficulty, out SortedList<int, int> existingList))
+                if (DifficultyExpDictionary.TryGetValue(difficulty, out List<int> existingList))
                 {
-                    existingList.Add(exp, exp);
+                    existingList.Add(exp);
+                    existingList.Sort();
                 }
                 else
                 {
-                    SortedList<int, int> difficultyExpList = new SortedList<int, int>
-                    {
-                        { exp, exp }
-                    };
+                    List<int> difficultyExpList = [exp];
                     DifficultyExpDictionary[difficulty] = difficultyExpList;
                 }
             }
@@ -148,6 +156,7 @@ namespace ExpNormalization
 
         public static void SetAct3DifficultyExpDictionary(Dictionary<string, NPCData> npcDictionary)
         {
+            LogDebug("Exp Normalization: Populating Act3DifficultyExpDictionary...");
             Act3DifficultyExpDictionary.Clear();
             foreach (KeyValuePair<string, NPCData> npcEntry in npcDictionary)
             {
@@ -177,16 +186,14 @@ namespace ExpNormalization
                 }
 
                 int exp = npcData.ExperienceReward;
-                if (Act3DifficultyExpDictionary.TryGetValue(difficulty, out SortedList<int, int> existingList))
+                if (Act3DifficultyExpDictionary.TryGetValue(difficulty, out List<int> existingList))
                 {
-                    existingList.Add(exp, exp);
+                    existingList.Add(exp);
+                    existingList.Sort();
                 }
                 else
                 {
-                    SortedList<int, int> difficultyExpList = new SortedList<int, int>
-                    {
-                        { exp, exp }
-                    };
+                    List<int> difficultyExpList = [exp];
                     Act3DifficultyExpDictionary[difficulty] = difficultyExpList;
                 }
             }

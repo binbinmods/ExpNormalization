@@ -5,7 +5,7 @@ schemaVersion = "1.0.0"
 namespace = "Binbin"
 name = "Exp_Normalizer"
 versionNumber = "1.0.0"
-description = "A mod that DescriptionToReplace"
+description = "A mod that normalizes experience gained from each combat to be the maximum possible for Highscoring."
 websiteUrl = "https://github.com/binbinmods/ExpNormalization"
 containsNsfwContent = false
 

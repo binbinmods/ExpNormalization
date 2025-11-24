@@ -1,6 +1,6 @@
 # Exp Normalization
 
-This is a simple mod that DescriptionToReplace
+This is a simple mod that normalizes experience gained from each combat to be the maximum possible for Highscoring.
 
 To change the configs, just open up the config menu by pressing F5 and then changing the appropriate values. Restarting the game is only necessary when enabling/disabling the mod.
 

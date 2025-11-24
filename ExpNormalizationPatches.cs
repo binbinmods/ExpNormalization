@@ -44,10 +44,12 @@ namespace ExpNormalization
         {
             if (!AtOManager.Instance)
             {
+                LogDebug("Exp Normalization: Null AtOManager. Skipping EXP normalization.");
                 return;
             }
             if (!IsRandomCombat())
             {
+                LogDebug("Exp Normalization: Not a random combat encounter. Skipping EXP normalization.");
                 return;
             }
             CombatData combat = AtOManager.Instance.GetCurrentCombatData();
@@ -70,7 +72,7 @@ namespace ExpNormalization
         [HarmonyPatch(typeof(Globals), "CreateGameContent")]
         public static void CreateGameContentPostfix()
         {
-
+            LogDebug("CreateGameContentPostfix - Setting up EXP dictionaries.");
             SetDifficultyExpDictionary(Globals.Instance.NPCs);
             SetAct3DifficultyExpDictionary(Globals.Instance.NPCs);
         }
