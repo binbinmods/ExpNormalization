@@ -46,6 +46,10 @@ namespace ExpNormalization
             {
                 return;
             }
+            if (!IsRandomCombat())
+            {
+                return;
+            }
             CombatData combat = AtOManager.Instance.GetCurrentCombatData();
             if (combat == null)
             {

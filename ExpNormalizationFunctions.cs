@@ -15,6 +15,7 @@ namespace ExpNormalization
 {
     public class ExpNormalizationFunctions
     {
+
         public static Dictionary<int, SortedList<int, int>> DifficultyExpDictionary = [];
         public static Dictionary<int, SortedList<int, int>> Act3DifficultyExpDictionary = [];
         public static Dictionary<Enums.CombatTier, int> champTierDict = new Dictionary<Enums.CombatTier, int>
@@ -48,6 +49,11 @@ namespace ExpNormalization
             { Enums.CombatTier.T11, 13 },
             { Enums.CombatTier.T12, 13 }
         };
+
+        public static bool IsRandomCombat()
+        {
+            return Globals.Instance.GetNodeData(AtOManager.Instance.currentMapNode).CombatPercent > 0;
+        }
 
         public static int GetHighestEnemyDifficulty(Enums.CombatTier combatTier)
         {
