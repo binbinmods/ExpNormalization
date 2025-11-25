@@ -58,13 +58,19 @@ namespace ExpNormalization
                 LogDebug($"Exp Normalization: No combat data found for {AtOManager.Instance.currentMapNode}.");
                 return;
             }
-            int highestDifficulty = GetHighestEnemyDifficulty(combat.CombatTier);
-            int championDifficulty = GetChampionDifficulty(combat.CombatTier);
+            NodeData node = Globals.Instance.GetNodeData(AtOManager.Instance.currentMapNode);
+            if (node == null)
+            {
+                LogDebug($"Exp Normalization: No node data found for {AtOManager.Instance.currentMapNode}.");
+                return;
+            }
+            int highestDifficulty = GetHighestEnemyDifficulty(node.NodeCombatTier);
+            int championDifficulty = GetChampionDifficulty(node.NodeCombatTier);
             bool isAct3 = AtOManager.Instance.GetActNumberForText() == 3;
             int[] highestExp = GetHighestExp(highestDifficulty, isAct3: isAct3);
             int championExp = GetChampionExp(championDifficulty, isAct3: isAct3);
             __result = highestExp.Sum() + championExp;
-            LogDebug($"Exp Normalization Applied: Combat {combat.CombatId}, Highest Difficulty {highestDifficulty}, Champion Difficulty {championDifficulty}, Total Exp {__result}");
+            LogDebug($"Exp Normalization Applied: Combat {node.NodeId}, Highest Difficulty {highestDifficulty}, Champion Difficulty {championDifficulty}, Total Exp {string.Join(", ", highestExp)} + {championExp} = {__result}");
             return;
         }
 

@@ -72,9 +72,7 @@ namespace ExpNormalization
             string modName = "ExpNormalization";
             EnableMod = Config.Bind(new ConfigDefinition(modName, "EnableMod"), true, new ConfigDescription("Enables the mod. If false, the mod will not work then next time you load the game."));
             EnableDebugging = Config.Bind(new ConfigDefinition(modName, "EnableDebugging"), false, new ConfigDescription("Enables the debugging"));
-            // EnablePerkChangeInTowns = Config.Bind(new ConfigDefinition(modName, "EnablePerkChangeInTowns"), true, new ConfigDescription("Enables you to change perks in any town."));
-            // DevMode = Config.Bind(new ConfigDefinition("DespairMode", "DevMode"), false, new ConfigDescription("Enables all of the things for testing."));
-            // apply patches, this functionally runs all the code for Harmony, running your mod
+
             PluginName = PluginInfo.PLUGIN_NAME;
             PluginVersion = PluginInfo.PLUGIN_VERSION;
             PluginGUID = PluginInfo.PLUGIN_GUID;

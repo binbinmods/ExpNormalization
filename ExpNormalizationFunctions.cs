@@ -40,10 +40,10 @@ namespace ExpNormalization
             { Enums.CombatTier.T0, 1 },
             { Enums.CombatTier.T1, 1 },
             { Enums.CombatTier.T2, 3 },
-            { Enums.CombatTier.T3, 7 },
+            { Enums.CombatTier.T3, 5 },
             { Enums.CombatTier.T4, 9 },
             { Enums.CombatTier.T5, 9 },
-            { Enums.CombatTier.T6, 7 },
+            { Enums.CombatTier.T6, 5 },
             { Enums.CombatTier.T7, 9 },
             { Enums.CombatTier.T8, 5 },
             { Enums.CombatTier.T9, 9 },
@@ -130,11 +130,11 @@ namespace ExpNormalization
                     continue;
                 }
                 int difficulty = npcData.Difficulty;
-                if (npcData.NgPlusMob)
+                if (npcData.NgPlusMob != null)
                 {
                     npcData = npcData.NgPlusMob;
                 }
-                if (npcData.HellModeMob)
+                if (npcData.HellModeMob != null)
                 {
                     npcData = npcData.HellModeMob;
                 }
@@ -176,11 +176,11 @@ namespace ExpNormalization
                 }
 
 
-                if (npcData.NgPlusMob)
+                if (npcData.NgPlusMob != null)
                 {
                     npcData = npcData.NgPlusMob;
                 }
-                if (npcData.HellModeMob)
+                if (npcData.HellModeMob != null)
                 {
                     npcData = npcData.HellModeMob;
                 }

@@ -1,6 +1,6 @@
 {
   "name": "Exp_Normalizer",
-  "version_number": "1.0.0",
+  "version_number": "1.0.2",
   "website_url": "https://github.com/binbinmods/ExpNormalization",
   "description": "A mod that normalizes experience gained from each combat to be the maximum possible for Highscoring.",
   "dependencies": ["BepInEx-BepInExPack_AcrossTheObelisk-5.4.23"]
