@@ -1,3 +1,7 @@
+# 1.0.3
+
+Fixed Dream Combat exp
+
 # 1.0.2
 
 Fixed Act 2 and 3 starter enemies giving the wrong experience
