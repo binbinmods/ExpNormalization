@@ -26,11 +26,11 @@ namespace ExpNormalization
             { Enums.CombatTier.T3, [6] },
             { Enums.CombatTier.T4, [8] },
             { Enums.CombatTier.T5, [10] },
-            { Enums.CombatTier.T6, [6] },
-            { Enums.CombatTier.T7, [8] },
+            { Enums.CombatTier.T6, [6, 8] },
+            { Enums.CombatTier.T7, [8, 10] },
             { Enums.CombatTier.T8, [15] },
             { Enums.CombatTier.T9, [16] },
-            { Enums.CombatTier.T10, [10] },
+            { Enums.CombatTier.T10, [10, 12] },
             { Enums.CombatTier.T11, [12] },
             { Enums.CombatTier.T12, [12] }
         };
@@ -40,16 +40,16 @@ namespace ExpNormalization
             { Enums.CombatTier.T0, [1] },
             { Enums.CombatTier.T1, [1] },
             { Enums.CombatTier.T2, [3] },
-            { Enums.CombatTier.T3, [5] },
-            { Enums.CombatTier.T4, [9] },
-            { Enums.CombatTier.T5, [9] },
-            { Enums.CombatTier.T6, [5] },
-            { Enums.CombatTier.T7, [9] },
-            { Enums.CombatTier.T8, [5] },
-            { Enums.CombatTier.T9, [9] },
-            { Enums.CombatTier.T10, [11] },
-            { Enums.CombatTier.T11, [13] },
-            { Enums.CombatTier.T12, [13] }
+            { Enums.CombatTier.T3, [5, 7] },
+            { Enums.CombatTier.T4, [5, 7, 9] },
+            { Enums.CombatTier.T5, [7, 9] },
+            { Enums.CombatTier.T6, [5, 7] },
+            { Enums.CombatTier.T7, [7, 9] },
+            { Enums.CombatTier.T8, [3, 5] },
+            { Enums.CombatTier.T9, [7, 9] },
+            { Enums.CombatTier.T10, [9, 11] },
+            { Enums.CombatTier.T11, [11, 13] },
+            { Enums.CombatTier.T12, [11, 13] }
         };
 
         public static bool IsRandomCombat()

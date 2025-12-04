@@ -1,3 +1,7 @@
+# 1.0.4
+
+Fixed combats that can give multiple enemies from different difficulty tiers.
+
 # 1.0.3
 
 Fixed Dream Combat exp
