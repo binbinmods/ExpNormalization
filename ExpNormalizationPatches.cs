@@ -5,7 +5,7 @@ using HarmonyLib;
 // using static Obeliskial_Essentials.Essentials;
 using System;
 using static ExpNormalization.Plugin;
-using static ExpNormalization.CustomFunctions;
+// using static ExpNormalization.CustomFunctions;
 using static ExpNormalization.ExpNormalizationFunctions;
 using System.Collections.Generic;
 using static Functions;
@@ -18,6 +18,7 @@ using System.Text.RegularExpressions;
 using System.Reflection;
 using System.Diagnostics;
 using UnityEngine.Rendering;
+using System.Collections;
 // using Unity.TextMeshPro;
 
 // Make sure your namespace is the same everywhere
@@ -75,12 +76,40 @@ namespace ExpNormalization
         }
 
         [HarmonyPostfix]
-        [HarmonyPatch(typeof(Globals), "CreateGameContent")]
+        [HarmonyPatch(typeof(Globals), "CreateGameContentRoutine")]
+
+        public static void CreateGameContentPostfix(ref IEnumerator __result)
+        {
+            __result = RunAfter(__result, CreateGameContentPostfix);
+        }
+
         public static void CreateGameContentPostfix()
         {
             LogDebug("CreateGameContentPostfix - Setting up EXP dictionaries.");
-            SetDifficultyExpDictionary(Globals.Instance.NPCs);
-            SetAct3DifficultyExpDictionary(Globals.Instance.NPCs);
+            try
+            {
+                Dictionary<string, NPCData> npcDictionary = Traverse.Create(Globals.Instance).Field("_NPCsSource").GetValue<Dictionary<string, NPCData>>();
+                if (npcDictionary == null)
+                {
+                    LogError("Special test - NPC dictionary is null. Not setting difficulty EXP dictionary.");
+                    return;
+                }
+                SetDifficultyExpDictionary(npcDictionary);
+            }
+            catch (Exception ex)
+            {
+                LogError($"Exp Normalization: Error setting difficulty EXP dictionary: {ex.ToString()}");
+            }
+            try
+            {
+                Dictionary<string, NPCData> npcDictionary = Traverse.Create(Globals.Instance).Field("_NPCsSource").GetValue<Dictionary<string, NPCData>>();
+                SetAct3DifficultyExpDictionary(npcDictionary);
+            }
+            catch (Exception ex)
+            {
+                LogError($"Exp Normalization: Error setting Act3 difficulty EXP dictionary: {ex.ToString()}");
+            }
+            LogDebug("CreateGameContentPostfix - Done setting up EXP dictionaries.");
         }
 
 

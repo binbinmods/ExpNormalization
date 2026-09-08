@@ -1,3 +1,7 @@
+# 1.1.0
+
+Update for AtO v1.7.6.3+
+
 # 1.0.4
 
 Fixed combats that can give multiple enemies from different difficulty tiers.
