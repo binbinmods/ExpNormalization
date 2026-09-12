@@ -4,14 +4,10 @@ using BepInEx;
 using BepInEx.Logging;
 using BepInEx.Configuration;
 using HarmonyLib;
-using static Obeliskial_Essentials.Essentials;
-using static Obeliskial_Essentials.CardDescriptionNew;
-using BepInEx.Bootstrap;
 using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Collections;
-// using static ExpNormalization.EssentialsCompatibility;
 
 
 // The Plugin csharp file is used to specify some general info about your plugin. and set up things for 
@@ -74,6 +70,9 @@ namespace ExpNormalization
             EnableMod = Config.Bind(new ConfigDefinition(modName, "EnableMod"), true, new ConfigDescription("Enables the mod. If false, the mod will not work then next time you load the game."));
             EnableDebugging = Config.Bind(new ConfigDefinition(modName, "EnableDebugging"), false, new ConfigDescription("Enables the debugging"));
 
+            EnableMod.SettingChanged += (sender, e) => { LogDebug($"EnableMod setting changed to {EnableMod.Value}"); };
+            EnableDebugging.SettingChanged += (sender, e) => { LogDebug($"EnableDebugging setting changed to {EnableDebugging.Value}"); };
+
             PluginName = PluginInfo.PLUGIN_NAME;
             PluginVersion = PluginInfo.PLUGIN_VERSION;
             PluginGUID = PluginInfo.PLUGIN_GUID;
@@ -93,7 +92,7 @@ namespace ExpNormalization
         {
             if (EnableDebugging.Value)
             {
-                Log.LogDebug($"{caller} - {debugBase}{msg}");
+                Log.LogDebug($"{debugBase}- {caller} - {msg}");
             }
         }
         internal static void LogInfo(string msg)
@@ -102,14 +101,13 @@ namespace ExpNormalization
         }
         internal static void LogError(string msg, [CallerMemberName] string caller = "")
         {
-            Log.LogError($"{caller} - {debugBase}{msg}");
+            Log.LogError($"{debugBase}- {caller} - {msg}");
         }
 
         public static IEnumerator RunAfter(IEnumerator original, Action action)
         {
             while (original.MoveNext())
                 yield return original.Current;
-            // The original enumerator has finished. _NPCsSource is set now.
             action();
         }
 

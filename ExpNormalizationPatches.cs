@@ -43,6 +43,10 @@ namespace ExpNormalization
         [HarmonyPatch(typeof(AtOManager), "GetExperienceFromCombat")]
         public static void GetExperienceFromCombat(ref int __result)
         {
+            if (!EnableMod.Value)
+            {
+                return;
+            }
             if (!AtOManager.Instance)
             {
                 LogDebug("Exp Normalization: Null AtOManager. Skipping EXP normalization.");
@@ -80,6 +84,10 @@ namespace ExpNormalization
 
         public static void CreateGameContentPostfix(ref IEnumerator __result)
         {
+            if (!EnableMod.Value)
+            {
+                return;
+            }
             __result = RunAfter(__result, CreateGameContentPostfix);
         }
 
@@ -104,6 +112,30 @@ namespace ExpNormalization
             {
                 Dictionary<string, NPCData> npcDictionary = Traverse.Create(Globals.Instance).Field("_NPCsSource").GetValue<Dictionary<string, NPCData>>();
                 SetAct3DifficultyExpDictionary(npcDictionary);
+            }
+            catch (Exception ex)
+            {
+                LogError($"Exp Normalization: Error setting Act3 difficulty EXP dictionary: {ex.ToString()}");
+            }
+
+            try
+            {
+                Dictionary<string, NPCData> npcDictionary = Traverse.Create(Globals.Instance).Field("_NPCsNamed").GetValue<Dictionary<string, NPCData>>();
+                if (npcDictionary == null)
+                {
+                    LogError("Special test - NPC dictionary is null. Not setting difficulty EXP dictionary.");
+                    return;
+                }
+                SetDifficultyExpDictionary(npcDictionary, isChampion: true);
+            }
+            catch (Exception ex)
+            {
+                LogError($"Exp Normalization: Error setting difficulty EXP dictionary: {ex.ToString()}");
+            }
+            try
+            {
+                Dictionary<string, NPCData> npcDictionary = Traverse.Create(Globals.Instance).Field("_NPCsNamed").GetValue<Dictionary<string, NPCData>>();
+                SetAct3DifficultyExpDictionary(npcDictionary, isChampion: true);
             }
             catch (Exception ex)
             {

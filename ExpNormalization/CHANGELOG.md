@@ -1,3 +1,7 @@
+# 1.1.1
+
+Fixed Champion exp normalization
+
 # 1.1.0
 
 Update for AtO v1.7.6.3+

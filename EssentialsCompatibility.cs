@@ -28,6 +28,6 @@ public static class EssentialsCompatibility
             _date: ModDate,
             _link: @"https://github.com/binbinmods/ExpNormalization"
         );
-        LogInfo($"{PluginGUID} {PluginVersion} has loaded with Essentials!");
+        LogInfo($"{PluginVersion} has loaded with Essentials!");
     }
 }
